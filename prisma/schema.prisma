@@ -8,7 +8,9 @@ generator client {
 
 model Tasks {
     id Int @id @default(autoincrement())
+    email String @db.VarChar(255) @default("")
     task String @db.VarChar(255)
     priority Int
     completion_Date DateTime
+    completion_Status Int @default(0)
 }

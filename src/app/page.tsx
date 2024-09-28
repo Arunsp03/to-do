@@ -1,23 +1,13 @@
-"use client"
-import { getAllTasks } from "@/actions/tasks";
+"use client";
 import { useEffect } from "react";
-export default function Home() {
+import { useRouter } from "next/navigation";
 
-  useEffect(()=>{
-    const fetchdata=async()=>{
-      try{
-      const tasks=await getAllTasks();
-      console.log(tasks);
-      }
-      catch(err){
-        console.error(err)
-      }
-    }
-    fetchdata()
-  },[])
-  return (
-<div>
-  Hello world
-</div>
-  );
+export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace("/today");
+  }, [router]);
+
+  return <div>Loading screen...</div>;
 }
