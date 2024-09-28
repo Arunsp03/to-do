@@ -20,10 +20,10 @@ export async function getTodaysTasks()
     const endOfDay = new Date(today.setHours(23, 59, 59, 999)); // End of today
     const todaysTasks = await prisma.tasks.findMany({
       where:{
-        completion_Date:{
-          gte: startOfDay,  // Greater than or equal to start of day
-          lte: endOfDay     // Less than or equal to end of day
-        },
+        // completion_Date:{
+        //   gte: startOfDay,  // Greater than or equal to start of day
+        //   lte: endOfDay     // Less than or equal to end of day
+        // },
         completion_Status:{
           equals:0
         }
