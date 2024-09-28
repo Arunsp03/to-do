@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAllTasks,getTodaysTasks } from '@/database/tasks';
+import { getTodaysTasks } from '@/database/tasks';
 export async function GET(){
     try {
       //  console.log("hit")

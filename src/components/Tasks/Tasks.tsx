@@ -1,5 +1,5 @@
     "use client"
-    import { headers } from "next/headers";
+
     import { useEffect, useState } from "react";
 import Task from "../Task/Task";
 
@@ -48,6 +48,7 @@ import Task from "../Task/Task";
                 },
                 body:JSON.stringify({taskForm,"create":true})
             });
+            
             fetchData();
             toggleTaskForm();
             resetTaskForm()
