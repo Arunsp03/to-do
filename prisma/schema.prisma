@@ -1,0 +1,14 @@
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:arunsql03@localhost:5432/todo?schema=public"
+}
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Tasks {
+    id Int @id @default(autoincrement())
+    task String @db.VarChar(255)
+    priority Int
+    completion_Date DateTime
+}
