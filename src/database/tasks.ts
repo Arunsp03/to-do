@@ -1,6 +1,6 @@
 "use server"
 import { PrismaClient } from '@prisma/client'
-import { equal } from 'assert';
+
 const prisma = new PrismaClient()
 export async function getAllTasks() {
     try{
@@ -35,7 +35,7 @@ export async function getTodaysTasks()
   }
 }
 
-export async function addTask(data:any){
+export async function addTask(data:{"task":string,"priority":string,"completion_Date":string}){
   try{
    const task={
     "task":data.task,
