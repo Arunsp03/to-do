@@ -1,13 +1,13 @@
-import { NextResponse } from 'next/server';
-import { getTodaysTasks } from '@/database/tasks';
-export async function GET(){
+
+import { getAllTasks } from "@/database/tasks";
+import { NextResponse } from "next/server";
+export async function GET()
+{
     try {
-      //  console.log("hit")
-        const results=await getTodaysTasks();
-        return NextResponse.json(results);
+        const response=await getAllTasks();
+        return NextResponse.json(response);
     } catch (error) {
         return NextResponse.json(error);
     }
-
 }
 export const revalidate = 0;

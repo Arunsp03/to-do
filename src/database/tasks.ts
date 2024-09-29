@@ -1,10 +1,17 @@
 "use server"
+import Task from '@/models/taskInterface';
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 export async function getAllTasks() {
     try{
-const allUsers = await prisma.tasks.findMany()
+const allUsers = await prisma.tasks.findMany(
+  {
+    where:{
+      completion_Status:0
+    }
+  }
+)
   return allUsers;
     }
     catch(err){
@@ -33,7 +40,7 @@ export async function getTodaysTasks()
   }
 }
 
-export async function addTask(data:{"task":string,"priority":string,"completion_Date":string}){
+export async function addTask(data:Task){
   try{
     console.log("completion data",typeof(data.completion_Date));
    const task={
@@ -53,7 +60,7 @@ export async function addTask(data:{"task":string,"priority":string,"completion_
 export async function updateCompletionStatus(id:number)
 {
   try {
-    const updateUser = await prisma.tasks.update({
+    const updateTask = await prisma.tasks.update({
       where: {
         id: id,
       },
@@ -61,8 +68,27 @@ export async function updateCompletionStatus(id:number)
         completion_Status:1,
       },
     })
-    return updateUser;
+    return updateTask;
   } catch (error) {
     console.error(error)
+  }
+}
+
+export async function editTask(id:number,task:Task)
+{
+  try {
+    const updateTask=await prisma.tasks.update({
+      where:{
+        id:id
+      },
+      data:{
+        task:task.task,
+        completion_Date:task.completion_Date,
+        priority:Number(task.priority)
+      }
+    })
+    return updateTask;
+  } catch (err) {
+    console.error(err);
   }
 }

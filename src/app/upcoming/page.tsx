@@ -1,7 +1,9 @@
+import Calendar from "@/components/Calendar/Calendar";
+
 const Upcoming=()=>{
     return(
         <>
-        Upcoming
+        <Calendar/>
         </>
     )
 }

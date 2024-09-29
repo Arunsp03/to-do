@@ -25,7 +25,7 @@ import Task from "../Task/Task";
             setShowTaskForm(prev=>!prev);
         }
         const fetchData=async()=>{
-            const response=await fetch("/api/tasks/getAllTasks",{
+            const response=await fetch("/api/tasks/getTodaysTasks",{
                 cache:"no-store",
                 method:"GET"
             });
@@ -65,7 +65,7 @@ import Task from "../Task/Task";
         const handleCompletion=async (e:any,id:number)=>{
             try{
                 
-                console.log(e.target.checked)
+               // console.log(e.target.checked)
             const response=await fetch("/api/tasks/markCompleted",{
                 cache:"no-store",
                 method:"POST",
@@ -90,13 +90,13 @@ import Task from "../Task/Task";
             fetchData();
         },[])
         return (
-            <>
+            <div>
             <div className="container w-[100vw]  h-[100vh]  flex flex-col  items-center mt-10 mb-4" >
             <h2 className="font-bold text-lg">Todays Tasks</h2>
             <div className="w-[50vw] m-4">
                 {incompleteTasks && incompleteTasks.map((item:any,index)=>{
                     return(
-                       <Task item={item} key={index} handleCompletion={handleCompletion} taskForm={taskForm} toggleTaskForm={toggleTaskForm} handleTaskForm={handleTaskForm}/>
+                       <Task item={item} key={index} handleCompletion={handleCompletion} taskForm={taskForm} toggleTaskForm={toggleTaskForm} handleTaskForm={handleTaskForm} fetchData={fetchData}/>
 
 
                     );
@@ -141,7 +141,7 @@ import Task from "../Task/Task";
             </form>
     }
             </div>
-            </>
+            </div>
         
         )
     }

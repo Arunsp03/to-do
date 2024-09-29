@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { addTask } from '@/database/tasks';
+import { addTask, editTask } from '@/database/tasks';
 export async function POST(request: Request ) {
     try {
         const body = await request.json(); // Parse the body of the request
@@ -8,8 +8,12 @@ export async function POST(request: Request ) {
         const response=await addTask(body.taskForm);
         return NextResponse.json(response)
         }
-    console.log("else");  
-    return NextResponse.json({"update":"need to update"})
+    else{
+        console.log("in edit mode",body.taskForm)
+        const response=await editTask(body.id,body.taskForm);
+        return NextResponse.json(response)
+    }
+   
         
     } catch (error) {
         return NextResponse.json(error);

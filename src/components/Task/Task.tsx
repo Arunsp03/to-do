@@ -23,25 +23,19 @@ const handleEditForm=(e:any)=>{
 const toggleEditForm=()=>{
     setEditMode(prev=>!prev)
 }
-const formatDateForInput = (dateString:string) => {
-    const date = new Date(dateString);
-    const yyyy = date.getFullYear();
-    const mm = String(date.getMonth() + 1).padStart(2, '0'); 
-    const dd = String(date.getDate()).padStart(2, '0');
-    const hh = String(date.getHours()).padStart(2, '0');
-    const min = String(date.getMinutes()).padStart(2, '0');
 
-    return `${yyyy}-${mm}-${dd}T${hh}:${min}`;
-};
-const submitTask=async ()=>{
+const submitEditedTask=async (id:number)=>{
     try{
+      //  console.log("id",id);
     const response=await fetch("/api/tasks/addTask",{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
         },
-        body:JSON.stringify({taskform:EditForm,"create":false})
+        body:JSON.stringify({taskForm:EditForm,"create":false,id:id})
     });
+    props.fetchData();
+    toggleEditForm();
    
 }
 catch(err)
@@ -51,7 +45,7 @@ catch(err)
 
 }
 return (
-    <>
+    <div>
     { !editMode ?(
     <div  className="p-2 m-2 border-b-2 cursor-pointer flex flex-row justify-between">
     <div className="flex flex-row">
@@ -91,7 +85,7 @@ return (
                 </div>
                 <div className="btn-section mt-2" >
                 <button type="button" className="p-2 rounded" onClick={()=>{
-                  submitTask()
+                  submitEditedTask(props.item.id)
                 }}>Save</button>
                 <button className="ml-4 bg-red-400 p-2  rounded" type="button" onClick={()=>{
                 toggleEditForm()
@@ -100,7 +94,7 @@ return (
             </form>
     }
 
-    </>
+    </div>
 )
 }
 export default Task;
