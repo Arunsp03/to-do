@@ -15,15 +15,13 @@ const allUsers = await prisma.tasks.findMany()
 export async function getTodaysTasks()
 {
   try {
-    const today = new Date();
-    const startOfDay = new Date(today.setHours(0, 0, 0, 0));  // Start of today
-    const endOfDay = new Date(today.setHours(23, 59, 59, 999)); // End of today
+    const today = new Date().toISOString().split("T")[0]
+    console.log(today);
     const todaysTasks = await prisma.tasks.findMany({
       where:{
-        // completion_Date:{
-        //   gte: startOfDay,  // Greater than or equal to start of day
-        //   lte: endOfDay     // Less than or equal to end of day
-        // },
+        completion_Date:{
+          equals:today
+        },
         completion_Status:{
           equals:0
         }
@@ -37,10 +35,11 @@ export async function getTodaysTasks()
 
 export async function addTask(data:{"task":string,"priority":string,"completion_Date":string}){
   try{
+    console.log("completion data",typeof(data.completion_Date));
    const task={
     "task":data.task,
     "priority":Number(data.priority),
-    "completion_Date":new Date(data.completion_Date).toISOString()
+    "completion_Date":data.completion_Date.toString()
    }
   const response=await prisma.tasks.create({data:task});
   return response;

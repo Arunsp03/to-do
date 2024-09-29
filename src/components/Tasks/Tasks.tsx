@@ -122,7 +122,7 @@ import Task from "../Task/Task";
                 <option  value={3}>Priority 3</option>
                 </select>
             
-                <input value={taskForm.completion_Date} className="border-none outline-none ml-4" placeholder="Completion date" type="datetime-local" id="completion_Date" name="completion_Date"
+                <input value={taskForm.completion_Date} className="border-none outline-none ml-4" placeholder="Completion date" type="date" id="completion_Date" name="completion_Date"
                 onChange={(e)=>{
                     handleTaskForm(e)
                 }}/>

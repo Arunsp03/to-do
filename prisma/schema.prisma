@@ -16,6 +16,6 @@ model Tasks {
     email String @db.VarChar(255) @default("")
     task String @db.VarChar(255)
     priority Int
-    completion_Date DateTime
+    completion_Date String @db.VarChar(255)
     completion_Status Int @default(0)
 }
