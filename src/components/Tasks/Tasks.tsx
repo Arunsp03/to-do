@@ -26,6 +26,7 @@ import Task from "../Task/Task";
         }
         const fetchData=async()=>{
             const response=await fetch("https://to-do-seven-gold.vercel.app/api/tasks/getAllTasks",{
+                cache:"no-store",
                 method:"GET"
             });
             const data=await response.json();
