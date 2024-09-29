@@ -35,7 +35,7 @@ const formatDateForInput = (dateString:string) => {
 };
 const submitTask=async ()=>{
     try{
-    const response=await fetch("/api/tasks/addTask",{
+    const response=await fetch("https://to-do-seven-gold.vercel.app//api/tasks/addTask",{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
