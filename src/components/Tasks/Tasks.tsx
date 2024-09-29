@@ -25,7 +25,7 @@ import Task from "../Task/Task";
             setShowTaskForm(prev=>!prev);
         }
         const fetchData=async()=>{
-            const response=await fetch("https://to-do-seven-gold.vercel.app/api/tasks/getAllTasks",{
+            const response=await fetch("/api/tasks/getAllTasks",{
                 cache:"no-store",
                 method:"GET"
             });
@@ -42,7 +42,7 @@ import Task from "../Task/Task";
         }
         const submitTask=async ()=>{
             try{
-            const response=await fetch("https://to-do-seven-gold.vercel.app/api/tasks/addTask",{
+            const response=await fetch("/api/tasks/addTask",{
                 cache:"no-store",
                 method:"POST",
                 headers:{
@@ -66,7 +66,7 @@ import Task from "../Task/Task";
             try{
                 
                 console.log(e.target.checked)
-            const response=await fetch("https://to-do-seven-gold.vercel.app/api/tasks/markCompleted",{
+            const response=await fetch("/api/tasks/markCompleted",{
                 cache:"no-store",
                 method:"POST",
                 headers:{
