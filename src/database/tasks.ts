@@ -19,9 +19,9 @@ export async function getTodaysTasks()
     console.log(today);
     const todaysTasks = await prisma.tasks.findMany({
       where:{
-        completion_Date:{
-          equals:today
-        },
+        // completion_Date:{
+        //   equals:today
+        // },
         completion_Status:{
           equals:0
         }
