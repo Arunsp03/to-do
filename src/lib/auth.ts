@@ -5,16 +5,16 @@ import { AuthOptions } from "next-auth";
 export const authOptions: AuthOptions = {
   providers: [
     GithubProvider({
-      clientId: process.env.GITHUB_CLIENT_ID_LOCAL as string ?? "",
-      clientSecret: process.env.GITHUB_CLIENT_SECRET_LOCAL as string ?? "",
+     clientId: process.env.GITHUB_clientId_PRODUCTION??"",
+      clientSecret:process.env.GITHUB_clientSecret_PRODUCTION??""
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET || "test", // Ensure this is set
+  secret: process.env.NEXTAUTH_SECRET || "", // Ensure this is set
   session: {
     strategy: "jwt", // Use JWT for session management (no need for `as string`)
   },
   jwt: {
     // Optional: Add custom JWT signing options
-    secret: process.env.NEXTAUTH_SECRET || "test", // Ensure this is set
+    secret: process.env.NEXTAUTH_SECRET || "", // Ensure this is set
   },
 };
