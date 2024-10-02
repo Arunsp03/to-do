@@ -1,9 +1,16 @@
+
+import Sidebar from "@/components/Sidebar/Sidebar";
 import Tasks from "@/components/Tasks/Tasks";
 
+import { useEffect } from "react";
+
 const Today=()=>{
+
+
     return (
         <>
-        <Tasks/>
+    <Sidebar/>
+    <Tasks/>
         </>
     )
 }

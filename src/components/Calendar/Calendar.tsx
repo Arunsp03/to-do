@@ -2,9 +2,9 @@
 import calendar from '@/data/calendar.json';
 import { useEffect, useRef, useState } from "react";
 import Task from '../Task/Task';
-
+import { useSession } from 'next-auth/react';
 const Calendar=()=>{
-
+const session=useSession();
     const[showTaskForm,setShowTaskForm]=useState<string|null>(null)
     const[taskForm,setTaskForm]=useState({
         task:"",
@@ -15,7 +15,11 @@ const Calendar=()=>{
     const fetchData=async()=>{
         const response=await fetch("/api/tasks/getAllTasks",{
             cache:"no-store",
-            method:"GET"
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({"user":session.data?.user?.name})
         });
         const data=await response.json();
 
@@ -50,7 +54,7 @@ const Calendar=()=>{
             headers:{
                 "Content-Type":"application/json"
             },
-            body:JSON.stringify({taskForm,"create":true})
+            body:JSON.stringify({taskForm,"create":true,"user":session.data?.user?.name})
         });
         
         fetchData();
@@ -92,7 +96,7 @@ const Calendar=()=>{
     },[])
 return(
     <div>
-    <div className="container w-[100vw]  h-[100vh]  flex flex-col  items-center mt-10 mb-4">
+    <div className="container   h-[100vh]  flex flex-col  items-center mt-10 mb-4 " style={{marginLeft:"12rem", width:"auto"}}>
     <h2 className="font-bold text-lg">Upcoming Tasks</h2>
 <div className="w-[50vw] m-4">
     {calendar && calendar.months.map((item,index)=>{

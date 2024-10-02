@@ -3,13 +3,15 @@ import Task from '@/models/taskInterface';
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
-export async function getAllTasks() {
+export async function getAllTasks(username:string) {
     try{
 const allUsers = await prisma.tasks.findMany(
   {
     where:{
-      completion_Status:0
-    }
+      completion_Status:0,
+      email:username
+    },
+    
   }
 )
   return allUsers;
@@ -19,7 +21,7 @@ const allUsers = await prisma.tasks.findMany(
     }
   }
 
-export async function getTodaysTasks()
+export async function getTodaysTasks(username:string)
 {
   try {
     const today = new Date().toISOString().split("T")[0]
@@ -31,6 +33,9 @@ export async function getTodaysTasks()
         },
         completion_Status:{
           equals:0
+        },
+        email:{
+          equals:username
         }
       }
     });
@@ -40,13 +45,14 @@ export async function getTodaysTasks()
   }
 }
 
-export async function addTask(data:Task){
+export async function addTask(data:Task,user:string){
   try{
     console.log("completion data",typeof(data.completion_Date));
    const task={
     "task":data.task,
     "priority":Number(data.priority),
-    "completion_Date":data.completion_Date.toString()
+    "completion_Date":data.completion_Date.toString(),
+    "email":user
    }
   const response=await prisma.tasks.create({data:task});
   return response;

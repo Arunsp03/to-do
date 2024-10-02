@@ -1,9 +1,11 @@
     "use client"
 
-    import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Task from "../Task/Task";
+import { useSession } from "next-auth/react";
 
     const Tasks=()=>{
+        const session=useSession();
         const[incompleteTasks,setIncompleteTasks]=useState([])
        
         const[showTaskForm,setShowTaskForm]=useState(false)
@@ -25,13 +27,24 @@ import Task from "../Task/Task";
             setShowTaskForm(prev=>!prev);
         }
         const fetchData=async()=>{
+           try{
+            console.log("username",session.data?.user?.name);
             const response=await fetch("/api/tasks/getTodaysTasks",{
                 cache:"no-store",
-                method:"GET"
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({"user":session.data?.user?.name})
             });
             const data=await response.json();
         // console.log(data);
         setIncompleteTasks(data);
+           }
+           catch(err)
+           {
+            console.error(err);
+           }
         }
         const resetTaskForm=()=>{
             setTaskForm({
@@ -42,13 +55,15 @@ import Task from "../Task/Task";
         }
         const submitTask=async ()=>{
             try{
+               
             const response=await fetch("/api/tasks/addTask",{
+                
                 cache:"no-store",
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json"
                 },
-                body:JSON.stringify({taskForm,"create":true})
+                body:JSON.stringify({taskForm,"create":true,"user":session.data?.user?.name})
             });
             
             fetchData();
@@ -91,7 +106,7 @@ import Task from "../Task/Task";
         },[])
         return (
             <div>
-            <div className="container w-[100vw]  h-[100vh]  flex flex-col  items-center mt-10 mb-4" >
+            <div className="container  h-[100vh]  flex flex-col  items-center mt-10 mb-4" style={{marginLeft:"12rem", width:"auto"}} >
             <h2 className="font-bold text-lg">Todays Tasks</h2>
             <div className="w-[50vw] m-4">
                 {incompleteTasks && incompleteTasks.map((item:any,index)=>{
