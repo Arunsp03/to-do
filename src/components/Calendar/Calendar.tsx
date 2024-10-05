@@ -3,6 +3,8 @@ import calendar from '@/data/calendar.json';
 import { useEffect, useRef, useState } from "react";
 import Task from '../Task/Task';
 import { useSession } from 'next-auth/react';
+import ApiService from "@/api/Apiservice"
+const {fetchAllTasks,AddTask,handleTaskCompletion}=ApiService;
 const Calendar=()=>{
 const session=useSession();
     const[showTaskForm,setShowTaskForm]=useState<string|null>(null)
@@ -13,17 +15,14 @@ const session=useSession();
     });
     const[tasks,setTasks]=useState([])
     const fetchData=async()=>{
-        const response=await fetch("/api/tasks/getAllTasks",{
-            cache:"no-store",
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({"user":session.data?.user?.name})
-        });
-        const data=await response.json();
-
-    setTasks(data);
+      try{
+        const data=await fetchAllTasks(session);
+        setTasks(data);
+      }
+      catch(err)
+      {
+        console.error(err);
+      }
     }
     const resetTaskForm=()=>{
         setTaskForm({
@@ -48,15 +47,7 @@ const session=useSession();
     }
     const submitTask=async ()=>{
         try{
-        const response=await fetch("/api/tasks/addTask",{
-            cache:"no-store",
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({taskForm,"create":true,"user":session.data?.user?.name})
-        });
-        
+       const response=await AddTask(taskForm,session);
         fetchData();
         toggleTaskForm(taskForm.completion_Date);
         resetTaskForm()
@@ -72,14 +63,7 @@ const session=useSession();
         try{
             
           //  console.log(e.target.checked)
-        const response=await fetch("/api/tasks/markCompleted",{
-            cache:"no-store",
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({id:id})
-        });
+          const response=await handleTaskCompletion(e,id);
     e.target.checked=false;
     fetchData();
  

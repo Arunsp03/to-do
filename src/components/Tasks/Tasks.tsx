@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import Task from "../Task/Task";
 import { useSession } from "next-auth/react";
-
+import ApiService from "@/api/Apiservice"
+const {fetchTodaysTasks,AddTask,handleTaskCompletion}=ApiService
     const Tasks=()=>{
+        
         const session=useSession();
         const[incompleteTasks,setIncompleteTasks]=useState([])
        
@@ -28,18 +30,8 @@ import { useSession } from "next-auth/react";
         }
         const fetchData=async()=>{
            try{
-            console.log("username",session.data?.user?.name);
-            const response=await fetch("/api/tasks/getTodaysTasks",{
-                cache:"no-store",
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                body:JSON.stringify({"user":session.data?.user?.name})
-            });
-            const data=await response.json();
-        // console.log(data);
-        setIncompleteTasks(data);
+            const data=await fetchTodaysTasks(session);
+            setIncompleteTasks(data);
            }
            catch(err)
            {
@@ -56,15 +48,8 @@ import { useSession } from "next-auth/react";
         const submitTask=async ()=>{
             try{
                
-            const response=await fetch("/api/tasks/addTask",{
-                
-                cache:"no-store",
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                body:JSON.stringify({taskForm,"create":true,"user":session.data?.user?.name})
-            });
+
+            const response=await AddTask(taskForm,session);
             
             fetchData();
             toggleTaskForm();
@@ -80,15 +65,8 @@ import { useSession } from "next-auth/react";
         const handleCompletion=async (e:any,id:number)=>{
             try{
                 
-               // console.log(e.target.checked)
-            const response=await fetch("/api/tasks/markCompleted",{
-                cache:"no-store",
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                body:JSON.stringify({id:id})
-            });
+
+            const response=await handleTaskCompletion(e,id);
         e.target.checked=false;
         fetchData();
      
