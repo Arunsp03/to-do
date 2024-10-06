@@ -31,8 +31,20 @@ const session=useSession();
             completion_Date:""
         })
     }
-    const toggleTaskForm = (date: string | null) => {
-        
+    const toggleTaskForm = (date: string | null,item:any) => {
+        console.log("here",item);
+        if(item){
+       
+        setTaskForm(
+            {
+        task:item.task||"",
+        priority:item.priority||"",
+        completion_Date:item.completion_Date||"" 
+            }
+        )}
+        else{
+            resetTaskForm();
+        }
         setShowTaskForm((prev) => (prev === date ? null : date));
       };
     const handleTaskForm=(e:any,date:string)=>{
@@ -49,7 +61,7 @@ const session=useSession();
         try{
        const response=await AddTask(taskForm,session);
         fetchData();
-        toggleTaskForm(taskForm.completion_Date);
+        toggleTaskForm(taskForm.completion_Date,taskForm);
         resetTaskForm()
     }
     catch(err)
@@ -78,6 +90,14 @@ const session=useSession();
         fetchData();
        
     },[])
+    useEffect(() => {
+        setTaskForm({
+          task: taskForm.task,
+          priority: taskForm.priority,
+          completion_Date: taskForm.completion_Date,
+        });
+      }, [taskForm]);
+   
 return(
     <div>
     <div className="container   h-[100vh]  flex flex-col  items-center mt-10 mb-4 " style={{marginLeft:"12rem", width:"auto"}}>
@@ -96,7 +116,7 @@ return(
                                                <p className='font-bold'>{day.date} - {day.day} {new Date(day.date) == new Date(new Date().toISOString().split("T")[0])?"Today":""}</p>
                                                
                                                <button type="button" className="mt-4 flex flex-row justify-center items-center" onClick={(e)=>{
-                toggleTaskForm(day.date)
+                toggleTaskForm(day.date,null)
                 handleTaskForm(e,day.date);
 
             }}>
@@ -129,7 +149,7 @@ return(
                     submitTask()
                 }}>Save</button>
                 <button className="ml-4 bg-red-400 p-2  rounded" type="button" onClick={()=>{
-                toggleTaskForm(day.date)
+                toggleTaskForm(day.date,null)
                 }}>Close</button>
                 </div>
             </form>

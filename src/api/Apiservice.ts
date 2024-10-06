@@ -2,7 +2,7 @@ import Task from "@/models/taskInterface";
 
 const fetchTodaysTasks=async(session:any)=>{
     try{
-     console.log("username",session.data?.user?.name);
+   //  console.log("username",session.data?.user?.name);
      const response=await fetch("/api/tasks/getTodaysTasks",{
          cache:"no-store",
          method:"POST",

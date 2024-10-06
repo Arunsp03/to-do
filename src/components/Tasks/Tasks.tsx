@@ -26,6 +26,7 @@ const {fetchTodaysTasks,AddTask,handleTaskCompletion}=ApiService
             
         }
         const toggleTaskForm=()=>{
+            console.log("hit")
             setShowTaskForm(prev=>!prev);
         }
         const fetchData=async()=>{
@@ -82,6 +83,7 @@ const {fetchTodaysTasks,AddTask,handleTaskCompletion}=ApiService
         
             fetchData();
         },[])
+       
         return (
             <div>
             <div className="container  h-[100vh]  flex flex-col  items-center mt-10 mb-4" style={{marginLeft:"12rem", width:"auto"}} >
