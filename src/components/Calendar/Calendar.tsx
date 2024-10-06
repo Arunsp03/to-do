@@ -32,7 +32,7 @@ const session=useSession();
         })
     }
     const toggleTaskForm = (date: string | null,item:any) => {
-        console.log("here",item);
+   //     console.log("here",item);
         if(item){
        
         setTaskForm(
@@ -90,13 +90,7 @@ const session=useSession();
         fetchData();
        
     },[])
-    useEffect(() => {
-        setTaskForm({
-          task: taskForm.task,
-          priority: taskForm.priority,
-          completion_Date: taskForm.completion_Date,
-        });
-      }, [taskForm]);
+
    
 return(
     <div>
